@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegistroRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AuthController extends Controller
+{
+    public function register(RegistroRequest $request){// con request tenemos acceso a la validacion
+        $data = $request->validated();
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+
+        return[
+            'token' => $user->createToken('token')->plainTextToken,
+            'user' =>$user
+        ];
+    }
+
+    public function login(LoginRequest $request){
+        $data = $request->validated();
+
+        if(!Auth::attempt($data)){
+            return response([
+                'errors' => ['Las credenciales no son correctas']
+            ],422);
+        }
+
+        $user = Auth::user();
+        return[
+            'token' => $user->createToken('token')->plainTextToken,
+            'user' => $user
+        ];
+
+    }
+//al salir el usuario se vacia o queda nulo
+    public function logout(Request $request){
+        $user = $request->user();
+        $user->currentAccessToke()->delete();
+        return[
+            'user' =>null
+        ];
+    }
+}

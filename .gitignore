@@ -1,0 +1,9 @@
+# Raiz
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.log
+.env
+.env.*
+!.env.example

@@ -11,7 +11,7 @@ Backend: Laravel
 
 bash
 # Clonar
-git clone https://gitgub.com/TU-USUARIO/TU-REPO.git
+git clone [https://gitgub.com/TU-USUARIO/TU-REPO.git](https://github.com/Yuvigilda/restaurantlb/tree/main)
 cd TU-REPO
 
 # Backend
